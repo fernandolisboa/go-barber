@@ -1,7 +1,9 @@
 import { getRepository } from 'typeorm'
+
 import path from 'path'
 import fs from 'fs'
 
+import AppError from '../errors/AppError'
 import uploadConfig from '../config/upload'
 
 import User from '../models/User'
@@ -18,7 +20,10 @@ class UpdateUserAvatarService {
         const user = await userRepository.findOne(userId)
 
         if (!user) {
-            throw new Error('Only authenticated users can change own avatar.')
+            throw new AppError(
+                'Only authenticated users can change own avatar.',
+                401,
+            )
         }
 
         if (user.avatar) {
