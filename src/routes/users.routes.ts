@@ -3,8 +3,12 @@ import { getRepository } from 'typeorm'
 import multer from 'multer'
 
 import uploadConfig from '../config/upload'
+
 import User from '../models/User'
+
 import CreateUserService from '../services/CreateUserService'
+import UpdateUserAvatarService from '../services/UpdateUserAvatarService'
+
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 
 const usersRouter = Router()
@@ -45,9 +49,20 @@ usersRouter.patch(
     ensureAuthenticated,
     upload.single('avatar'),
     async (request, response) => {
-        console.log(request.file)
+        try {
+            const updateAvatar = new UpdateUserAvatarService()
 
-        return response.json({ ok: true })
+            const user = await updateAvatar.execute({
+                userId: request.user.id,
+                avatarFilename: request.file.filename,
+            })
+
+            delete user.password
+
+            return response.json(user)
+        } catch (err) {
+            return response.status(400).json({ error: err.message })
+        }
     },
 )
 
