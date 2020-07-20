@@ -4,7 +4,7 @@ import { verify } from 'jsonwebtoken'
 import authConfig from '@config/auth'
 import AppError from '@shared/errors/AppError'
 
-interface TokenPayload {
+interface ITokenPayload {
     iat: number
     exp: number
     sub: string
@@ -12,7 +12,7 @@ interface TokenPayload {
 
 export default function ensureAuthenticated(
     request: Request,
-    response: Response,
+    _response: Response,
     next: NextFunction,
 ): void {
     const bearerToken = request.headers.authorization
@@ -21,16 +21,14 @@ export default function ensureAuthenticated(
         throw new AppError('JWT token is missing', 401)
     }
 
-    const [, token] = bearerToken.split(' ')
-
     try {
+        const [, token] = bearerToken.split(' ')
+
         const decoded = verify(token, authConfig.jwt.secret)
 
-        const { sub } = decoded as TokenPayload
+        const { sub } = decoded as ITokenPayload
 
-        request.user = {
-            id: sub,
-        }
+        request.user = { id: sub }
     } catch (error) {
         throw new AppError('Invalid JWT token', 401)
     }

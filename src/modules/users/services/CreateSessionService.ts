@@ -1,4 +1,4 @@
-import { getRepository } from 'typeorm'
+import { injectable, inject } from 'tsyringe'
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
@@ -6,26 +6,29 @@ import authConfig from '@config/auth'
 import AppError from '@shared/errors/AppError'
 
 import User from '@modules/users/infra/typeorm/entities/User'
+import IUsersRepository from '../repositories/IUsersRepository'
 
-interface Request {
+interface IRequest {
     login: string
     password: string
 }
 
-interface Response {
+interface IResponse {
     user: User
     token: string
 }
 
+@injectable()
 class CreateSessionService {
     private DEFAULT_ERROR_MESSAGE = 'Invalid credentials. Please try again.'
 
-    public async execute({ login, password }: Request): Promise<Response> {
-        const userRepository = getRepository(User)
+    constructor(
+        @inject('UsersRepository')
+        private userRepository: IUsersRepository,
+    ) {}
 
-        const user = await userRepository.findOne({
-            where: [{ username: login }, { email: login }],
-        })
+    public async execute({ login, password }: IRequest): Promise<IResponse> {
+        const user = await this.userRepository.findByLogin(login)
 
         if (!user) {
             throw new AppError(this.DEFAULT_ERROR_MESSAGE, 401)

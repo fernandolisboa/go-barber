@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import { getRepository } from 'typeorm'
+import { container } from 'tsyringe'
+
 import multer from 'multer'
 
 import uploadConfig from '@config/upload'
 
-import User from '@modules/users/infra/typeorm/entities/User'
-
+import FindAllUsersService from '@modules/users/services/FindAllUsersService'
 import CreateUserService from '@modules/users/services/CreateUserService'
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService'
 
@@ -16,8 +16,8 @@ const usersRouter = Router()
 const upload = multer(uploadConfig)
 
 usersRouter.get('/', async (_request, response) => {
-    const usersRepository = getRepository(User)
-    const users = await usersRepository.find()
+    const findAllUsers = container.resolve(FindAllUsersService)
+    const users = await findAllUsers.execute()
 
     users.forEach(user => delete user.password)
 
@@ -27,7 +27,7 @@ usersRouter.get('/', async (_request, response) => {
 usersRouter.post('/', async (request, response) => {
     const { name, email, password } = request.body
 
-    const createUser = new CreateUserService()
+    const createUser = container.resolve(CreateUserService)
 
     const user = await createUser.execute({
         name,
@@ -45,7 +45,7 @@ usersRouter.patch(
     ensureAuthenticated,
     upload.single('avatar'),
     async (request, response) => {
-        const updateAvatar = new UpdateUserAvatarService()
+        const updateAvatar = container.resolve(UpdateUserAvatarService)
 
         const user = await updateAvatar.execute({
             userId: request.user.id,
