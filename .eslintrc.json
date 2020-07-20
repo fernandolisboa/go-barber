@@ -24,7 +24,27 @@
         "prettier"
     ],
     "rules": {
+        "no-underscore-dangle": "off",
         "prettier/prettier": "error",
+        "class-methods-use-this": "off",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "_"
+            }
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "interface",
+                "format": ["PascalCase"],
+                "custom": {
+                    "regex": "^I[A-Z]",
+                    "match": true
+                }
+            }
+        ],
         "linebreak-style": [
             "error",
             "unix"
@@ -40,12 +60,6 @@
         "comma-dangle": [
             "error",
             "always-multiline"
-        ],
-        "@typescript-eslint/no-unused-vars": [
-            "error",
-            {
-                "argsIgnorePattern": "_"
-            }
         ]
     },
     "settings": {
