@@ -10,7 +10,7 @@ describe('CreateUser', () => {
     const fakeUsersRepository = new FakeUsersRepository()
     const fakeHashProvider = new FakeHashProvider()
 
-    const createUserService = new CreateUserService(
+    const createUser = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     )
@@ -21,7 +21,7 @@ describe('CreateUser', () => {
       password: '123456',
     }
 
-    const user = await createUserService.execute({ name, email, password })
+    const user = await createUser.execute({ name, email, password })
 
     expect(user).toHaveProperty('id')
     expect(user.name).toBe(name)
@@ -32,18 +32,18 @@ describe('CreateUser', () => {
     const fakeUsersRepository = new FakeUsersRepository()
     const fakeHashProvider = new FakeHashProvider()
 
-    const createUserService = new CreateUserService(
+    const createUser = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     )
 
-    await createUserService.execute({
+    await createUser.execute({
       name: 'John Doe 1',
       email: 'john@doe.com',
       password: '123456-1',
     })
 
-    const promise = createUserService.execute({
+    const promise = createUser.execute({
       name: 'John Doe 2',
       email: 'john@doe.com',
       password: '123456-2',

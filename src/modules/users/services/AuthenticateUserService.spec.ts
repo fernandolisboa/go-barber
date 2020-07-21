@@ -11,12 +11,12 @@ describe('AuthenticateUser', () => {
     const fakeUsersRepository = new FakeUsersRepository()
     const fakeHashProvider = new FakeHashProvider()
 
-    const createUserService = new CreateUserService(
+    const createUser = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     )
 
-    await createUserService.execute({
+    await createUser.execute({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',

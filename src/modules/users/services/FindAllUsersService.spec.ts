@@ -9,32 +9,32 @@ describe('FindAllUsers', () => {
     const fakeUsersRepository = new FakeUsersRepository()
     const fakeHashProvider = new FakeHashProvider()
 
-    const createUserService = new CreateUserService(
+    const createUser = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     )
 
-    await createUserService.execute({
+    await createUser.execute({
       name: 'John Doe 1',
       email: 'john1@doe.com',
       password: '123456',
     })
 
-    await createUserService.execute({
+    await createUser.execute({
       name: 'John Doe 2',
       email: 'john2@doe.com',
       password: '123456',
     })
 
-    await createUserService.execute({
+    await createUser.execute({
       name: 'John Doe 3',
       email: 'john3@doe.com',
       password: '123456',
     })
 
-    const findAllUsersService = new FindAllUsersService(fakeUsersRepository)
+    const findAllUsers = new FindAllUsersService(fakeUsersRepository)
 
-    const users = await findAllUsersService.execute()
+    const users = await findAllUsers.execute()
 
     expect(users).toHaveLength(3)
   })
