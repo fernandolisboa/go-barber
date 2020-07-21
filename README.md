@@ -1,4 +1,4 @@
-# Mapping GoBarber features
+# Mapa das features do GoBarber
 
 ## Recuperação de senha
 
