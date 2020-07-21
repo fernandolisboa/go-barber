@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
-import CreateSessionService from '@modules/users/services/CreateSessionService'
+import AuthenticateUserService from '@modules/users/services/AuthenticateUserService'
 
 class SessionsController {
     public async create(
@@ -10,9 +10,12 @@ class SessionsController {
     ): Promise<Response> {
         const { login, password } = request.body
 
-        const createSession = container.resolve(CreateSessionService)
+        const authenticateUser = container.resolve(AuthenticateUserService)
 
-        const { user, token } = await createSession.execute({ login, password })
+        const { user, token } = await authenticateUser.execute({
+            login,
+            password,
+        })
 
         delete user.password
 

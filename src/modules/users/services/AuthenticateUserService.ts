@@ -1,12 +1,13 @@
 import { injectable, inject } from 'tsyringe'
-import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
 import authConfig from '@config/auth'
 import AppError from '@shared/errors/AppError'
 
+import IUsersRepository from '@modules/users/repositories/IUsersRepository'
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider'
+
 import User from '@modules/users/infra/typeorm/entities/User'
-import IUsersRepository from '../repositories/IUsersRepository'
 
 interface IRequest {
     login: string
@@ -19,22 +20,28 @@ interface IResponse {
 }
 
 @injectable()
-class CreateSessionService {
+class AuthenticateUserService {
     private DEFAULT_ERROR_MESSAGE = 'Invalid credentials. Please try again.'
 
     constructor(
         @inject('UsersRepository')
-        private userRepository: IUsersRepository,
+        private usersRepository: IUsersRepository,
+
+        @inject('HashProvider')
+        private hashProvider: IHashProvider,
     ) {}
 
     public async execute({ login, password }: IRequest): Promise<IResponse> {
-        const user = await this.userRepository.findByLogin(login)
+        const user = await this.usersRepository.findByLogin(login)
 
         if (!user) {
             throw new AppError(this.DEFAULT_ERROR_MESSAGE, 401)
         }
 
-        const passwordMatched = await compare(password, user.password)
+        const passwordMatched = await this.hashProvider.compareHash(
+            password,
+            user.password,
+        )
 
         if (!passwordMatched) {
             throw new AppError(this.DEFAULT_ERROR_MESSAGE, 401)
@@ -47,11 +54,8 @@ class CreateSessionService {
             expiresIn,
         })
 
-        return {
-            user,
-            token,
-        }
+        return { user, token }
     }
 }
 
-export default CreateSessionService
+export default AuthenticateUserService
