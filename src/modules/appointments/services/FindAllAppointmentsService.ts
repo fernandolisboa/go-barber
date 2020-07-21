@@ -6,15 +6,15 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 
 @injectable()
 class FindAllAppointmentsService {
-    constructor(
-        @inject('AppointmentsRepository')
-        private appointmentsRepository: IAppointmentsRepository,
-    ) {}
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) {}
 
-    public async execute(): Promise<Appointment[]> {
-        const appointments = await this.appointmentsRepository.findAll()
-        return appointments
-    }
+  public async execute(): Promise<Appointment[]> {
+    const appointments = await this.appointmentsRepository.findAll()
+    return appointments
+  }
 }
 
 export default FindAllAppointmentsService

@@ -6,33 +6,33 @@ import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointment
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment'
 
 class AppointmentsRepository implements IAppointmentsRepository {
-    private ormRepository: Repository<Appointment>
+  private ormRepository: Repository<Appointment>
 
-    constructor() {
-        this.ormRepository = getRepository(Appointment)
-    }
+  constructor() {
+    this.ormRepository = getRepository(Appointment)
+  }
 
-    public async findAll(): Promise<Appointment[]> {
-        return await this.ormRepository.find()
-    }
+  public async findAll(): Promise<Appointment[]> {
+    return await this.ormRepository.find()
+  }
 
-    public async findByDate(date: Date): Promise<Appointment | undefined> {
-        const appointmentFound = await this.ormRepository.findOne({
-            where: { date },
-        })
+  public async findByDate(date: Date): Promise<Appointment | undefined> {
+    const appointmentFound = await this.ormRepository.findOne({
+      where: { date },
+    })
 
-        return appointmentFound
-    }
+    return appointmentFound
+  }
 
-    public async create(
-        appointmentData: ICreateAppointmentDTO,
-    ): Promise<Appointment> {
-        const appointment = this.ormRepository.create(appointmentData)
+  public async create(
+    appointmentData: ICreateAppointmentDTO,
+  ): Promise<Appointment> {
+    const appointment = this.ormRepository.create(appointmentData)
 
-        await this.ormRepository.save(appointment)
+    await this.ormRepository.save(appointment)
 
-        return appointment
-    }
+    return appointment
+  }
 }
 
 export default AppointmentsRepository

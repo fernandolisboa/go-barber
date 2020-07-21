@@ -6,15 +6,15 @@ import User from '@modules/users/infra/typeorm/entities/User'
 
 @injectable()
 class FindAllUsersService {
-    constructor(
-        @inject('UsersRepository')
-        private usersRepository: IUsersRepository,
-    ) {}
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
-    public async execute(): Promise<User[]> {
-        const users = await this.usersRepository.findAll()
-        return users
-    }
+  public async execute(): Promise<User[]> {
+    const users = await this.usersRepository.findAll()
+    return users
+  }
 }
 
 export default FindAllUsersService

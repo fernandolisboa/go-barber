@@ -10,11 +10,11 @@ import IAppointmentsRepository from '@modules/appointments/repositories/IAppoint
 import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository'
 
 container.registerSingleton<IUsersRepository>(
-    'UsersRepository',
-    UsersRepository,
+  'UsersRepository',
+  UsersRepository,
 )
 
 container.registerSingleton<IAppointmentsRepository>(
-    'AppointmentsRepository',
-    AppointmentsRepository,
+  'AppointmentsRepository',
+  AppointmentsRepository,
 )

@@ -11,29 +11,29 @@ type Request = Pick<Appointment, 'provider_id' | 'date'>
 
 @injectable()
 class CreateAppointmentService {
-    constructor(
-        @inject('AppointmentsRepository')
-        private appointmentsRepository: IAppointmentsRepository,
-    ) {}
+  constructor(
+    @inject('AppointmentsRepository')
+    private appointmentsRepository: IAppointmentsRepository,
+  ) {}
 
-    public async execute({ provider_id, date }: Request): Promise<Appointment> {
-        const appointmentDate = startOfHour(date)
+  public async execute({ provider_id, date }: Request): Promise<Appointment> {
+    const appointmentDate = startOfHour(date)
 
-        const existsAppointmentInSameDate = await this.appointmentsRepository.findByDate(
-            appointmentDate,
-        )
+    const existsAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+      appointmentDate,
+    )
 
-        if (existsAppointmentInSameDate) {
-            throw new AppError('This appointment is already booked')
-        }
-
-        const appointment = await this.appointmentsRepository.create({
-            provider_id,
-            date: appointmentDate,
-        })
-
-        return appointment
+    if (existsAppointmentInSameDate) {
+      throw new AppError('This appointment is already booked')
     }
+
+    const appointment = await this.appointmentsRepository.create({
+      provider_id,
+      date: appointmentDate,
+    })
+
+    return appointment
+  }
 }
 
 export default CreateAppointmentService

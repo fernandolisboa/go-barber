@@ -7,35 +7,27 @@ import FindAllAppointmentsService from '@modules/appointments/services/FindAllAp
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService'
 
 class AppointmentsController {
-    public async index(
-        _request: Request,
-        response: Response,
-    ): Promise<Response> {
-        const findAllAppointments = container.resolve(
-            FindAllAppointmentsService,
-        )
-        const appointments = await findAllAppointments.execute()
+  public async index(_request: Request, response: Response): Promise<Response> {
+    const findAllAppointments = container.resolve(FindAllAppointmentsService)
+    const appointments = await findAllAppointments.execute()
 
-        return response.json(appointments)
-    }
+    return response.json(appointments)
+  }
 
-    public async create(
-        request: Request,
-        response: Response,
-    ): Promise<Response> {
-        const { provider_id, date } = request.body
+  public async create(request: Request, response: Response): Promise<Response> {
+    const { provider_id, date } = request.body
 
-        const parsedDate = parseISO(date)
+    const parsedDate = parseISO(date)
 
-        const createAppointment = container.resolve(CreateAppointmentService)
+    const createAppointment = container.resolve(CreateAppointmentService)
 
-        const appointment = await createAppointment.execute({
-            provider_id,
-            date: parsedDate,
-        })
+    const appointment = await createAppointment.execute({
+      provider_id,
+      date: parsedDate,
+    })
 
-        return response.json(appointment)
-    }
+    return response.json(appointment)
+  }
 }
 
 export default AppointmentsController
