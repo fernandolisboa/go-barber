@@ -1,7 +1,7 @@
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository'
 
-import CreateAppointmentService from './CreateAppointmentService'
-import FindAllAppointmentsService from './FindAllAppointmentsService'
+import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService'
+import FindAllAppointmentsService from '@modules/appointments/services/FindAllAppointmentsService'
 
 describe('FindAllAppointments', () => {
   it('should be able get all appointments', async () => {

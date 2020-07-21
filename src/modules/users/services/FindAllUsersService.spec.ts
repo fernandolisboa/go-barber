@@ -1,8 +1,8 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 
-import CreateUserService from './CreateUserService'
-import FindAllUsersService from './FindAllUsersService'
+import CreateUserService from '@modules/users/services/CreateUserService'
+import FindAllUsersService from '@modules/users/services/FindAllUsersService'
 
 describe('FindAllUsers', () => {
   it('should be able get all users', async () => {

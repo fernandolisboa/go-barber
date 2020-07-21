@@ -3,8 +3,8 @@ import AppError from '@shared/errors/AppError'
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 
-import AuthenticateUserService from './AuthenticateUserService'
-import CreateUserService from './CreateUserService'
+import AuthenticateUserService from '@modules/users/services/AuthenticateUserService'
+import CreateUserService from '@modules/users/services/CreateUserService'
 
 describe('AuthenticateUser', () => {
   it('should be able to authenticate user', async () => {

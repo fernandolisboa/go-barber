@@ -4,8 +4,8 @@ import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepo
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider'
 
-import UpdateUserAvatarService from './UpdateUserAvatarService'
-import CreateUserService from './CreateUserService'
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService'
+import CreateUserService from '@modules/users/services/CreateUserService'
 
 describe('UpdateUserAvatar', () => {
   it('should be able to update the avatar of a new user', async () => {
