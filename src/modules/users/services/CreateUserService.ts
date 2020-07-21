@@ -1,28 +1,32 @@
 import { injectable, inject } from 'tsyringe'
-import { hash } from 'bcryptjs'
 
 import AppError from '@shared/errors/AppError'
 
-import User from '@modules/users/infra/typeorm/entities/User'
-import IUsersRepository from '../repositories/IUsersRepository'
+import IUsersRepository from '@modules/users/repositories/IUsersRepository'
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider'
 
-type Request = Pick<User, 'name' | 'email' | 'password'>
+import User from '@modules/users/infra/typeorm/entities/User'
+
+type IRequest = Pick<User, 'name' | 'email' | 'password'>
 
 @injectable()
 class CreateUserService {
     constructor(
         @inject('UsersRepository')
         private usersRepository: IUsersRepository,
+
+        @inject('HashProvider')
+        private hashProvider: IHashProvider,
     ) {}
 
-    public async execute({ name, email, password }: Request): Promise<User> {
+    public async execute({ name, email, password }: IRequest): Promise<User> {
         const existsUser = await this.usersRepository.findByLogin(email)
 
         if (existsUser) {
             throw new AppError('This email is already in use.')
         }
 
-        const hashedPassword = await hash(password, 8)
+        const hashedPassword = await this.hashProvider.generateHash(password)
 
         const username = email.substring(0, email.indexOf('@'))
 
