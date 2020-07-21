@@ -61,7 +61,7 @@ describe('AuthenticateUser', () => {
       password: 'wrong-password',
     })
 
-    expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toBeInstanceOf(AppError)
   })
 
   it('should not be able to authenticate non-existing user', async () => {
@@ -78,6 +78,6 @@ describe('AuthenticateUser', () => {
       password: '123456',
     })
 
-    expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toBeInstanceOf(AppError)
   })
 })

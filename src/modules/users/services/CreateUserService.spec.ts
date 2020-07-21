@@ -49,6 +49,6 @@ describe('CreateUser', () => {
       password: '123456-2',
     })
 
-    expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toBeInstanceOf(AppError)
   })
 })

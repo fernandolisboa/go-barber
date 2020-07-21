@@ -41,6 +41,6 @@ describe('CreateAppointment', () => {
       date,
     })
 
-    expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(promise).rejects.toBeInstanceOf(AppError)
   })
 })
