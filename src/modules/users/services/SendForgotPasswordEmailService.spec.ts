@@ -10,7 +10,7 @@ let fakeUsersRepository: FakeUsersRepository
 let fakeUserTokensRepository: FakeUserTokensRepository
 let fakeMailProvider: FakeMailProvider
 
-let sendForgotPassowordEmail: SendForgotPasswordEmailService
+let sendForgotPasswordEmail: SendForgotPasswordEmailService
 
 describe('', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('', () => {
     fakeUserTokensRepository = new FakeUserTokensRepository()
     fakeMailProvider = new FakeMailProvider()
 
-    sendForgotPassowordEmail = new SendForgotPasswordEmailService(
+    sendForgotPasswordEmail = new SendForgotPasswordEmailService(
       fakeUsersRepository,
       fakeUserTokensRepository,
       fakeMailProvider,
@@ -35,7 +35,7 @@ describe('', () => {
 
     const sendMail = jest.spyOn(fakeMailProvider, 'sendMail')
 
-    await sendForgotPassowordEmail.execute({ email })
+    await sendForgotPasswordEmail.execute({ email })
 
     expect(sendMail).toHaveBeenCalledTimes(1)
   })
@@ -43,7 +43,7 @@ describe('', () => {
   it('should not be able to send an email to a non-existing user', async () => {
     const sendMail = jest.spyOn(fakeMailProvider, 'sendMail')
 
-    const promise = sendForgotPassowordEmail.execute({ email: 'john@doe.com' })
+    const promise = sendForgotPasswordEmail.execute({ email: 'john@doe.com' })
 
     await expect(promise).rejects.toBeInstanceOf(AppError)
     expect(sendMail).toHaveBeenCalledTimes(0)
@@ -59,7 +59,7 @@ describe('', () => {
 
     const generate = jest.spyOn(fakeUserTokensRepository, 'generate')
 
-    await sendForgotPassowordEmail.execute({ email })
+    await sendForgotPasswordEmail.execute({ email })
 
     expect(generate).toHaveBeenCalledWith(id)
   })
