@@ -8,11 +8,10 @@ import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAut
 import UsersController from '@modules/users/infra/http/controllers/UsersController'
 import UserAvatarController from '@modules/users/infra/http/controllers/UserAvatarController'
 
-const usersRouter = Router()
 const usersController = new UsersController()
 const userAvatarController = new UserAvatarController()
 
-const upload = multer(uploadConfig)
+const usersRouter = Router()
 
 usersRouter.get('/', usersController.index)
 
@@ -21,7 +20,7 @@ usersRouter.post('/', usersController.create)
 usersRouter.patch(
   '/avatar',
   ensureAuthenticated,
-  upload.single('avatar'),
+  multer(uploadConfig).single('avatar'),
   userAvatarController.update,
 )
 
