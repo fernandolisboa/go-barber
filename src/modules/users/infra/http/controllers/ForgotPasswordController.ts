@@ -3,7 +3,7 @@ import { container } from 'tsyringe'
 
 import SendForgotPasswordEmailService from '@modules/users/services/SendForgotPasswordEmailService'
 
-class ResetPasswordController {
+class ForgotPasswordController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { email } = request.body
 
@@ -17,4 +17,4 @@ class ResetPasswordController {
   }
 }
 
-export default ResetPasswordController
+export default ForgotPasswordController
