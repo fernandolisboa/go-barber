@@ -5,7 +5,7 @@ import AppError from '@shared/errors/AppError'
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository'
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository'
-import IHashProvider from '../providers/HashProvider/models/IHashProvider'
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider'
 
 interface IRequest {
   token: string
