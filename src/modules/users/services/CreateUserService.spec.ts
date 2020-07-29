@@ -5,21 +5,22 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 
 import CreateUserService from '@modules/users/services/CreateUserService'
 
+let fakeUsersRepository: FakeUsersRepository
+let fakeHashProvider: FakeHashProvider
+let createUser: CreateUserService
+
 describe('CreateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository()
+    fakeHashProvider = new FakeHashProvider()
+
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
+  })
+
   it('should be able to create a new user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository()
-    const fakeHashProvider = new FakeHashProvider()
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    )
-
-    const { name, email, password } = {
-      name: 'John Doe',
-      email: 'john@doe.com',
-      password: '123456',
-    }
+    const name = 'New user'
+    const email = 'valid@mail.com'
+    const password = 'valid-password'
 
     const user = await createUser.execute({ name, email, password })
 
@@ -29,26 +30,20 @@ describe('CreateUser', () => {
   })
 
   it('should not be able to create two users with the same e-mail', async () => {
-    const fakeUsersRepository = new FakeUsersRepository()
-    const fakeHashProvider = new FakeHashProvider()
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    )
+    const sameEmail = 'same@email.com'
 
     await createUser.execute({
-      name: 'John Doe 1',
-      email: 'john@doe.com',
-      password: '123456-1',
+      name: 'New user',
+      email: sameEmail,
+      password: 'valid-password',
     })
 
-    const promise = createUser.execute({
-      name: 'John Doe 2',
-      email: 'john@doe.com',
-      password: '123456-2',
-    })
-
-    await expect(promise).rejects.toBeInstanceOf(AppError)
+    await expect(
+      createUser.execute({
+        name: 'Other user',
+        email: sameEmail,
+        password: 'other-password',
+      }),
+    ).rejects.toBeInstanceOf(AppError)
   })
 })
