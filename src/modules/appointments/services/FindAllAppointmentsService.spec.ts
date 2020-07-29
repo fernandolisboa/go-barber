@@ -3,14 +3,21 @@ import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService'
 import FindAllAppointmentsService from '@modules/appointments/services/FindAllAppointmentsService'
 
-describe('FindAllAppointments', () => {
-  it('should be able get all appointments', async () => {
-    const fakeAppointmentsRepository = new FakeAppointmentsRepository()
+let fakeAppointmentsRepository: FakeAppointmentsRepository
+let createAppointment: CreateAppointmentService
+let findAllAppointments: FindAllAppointmentsService
 
-    const createAppointment = new CreateAppointmentService(
+describe('FindAllAppointments', () => {
+  beforeEach(() => {
+    fakeAppointmentsRepository = new FakeAppointmentsRepository()
+
+    createAppointment = new CreateAppointmentService(fakeAppointmentsRepository)
+    findAllAppointments = new FindAllAppointmentsService(
       fakeAppointmentsRepository,
     )
+  })
 
+  it('should be able get all appointments', async () => {
     const provider_id = 'random-provider-id'
 
     await createAppointment.execute({
@@ -27,10 +34,6 @@ describe('FindAllAppointments', () => {
       provider_id,
       date: new Date(2020, 6, 10, 14),
     })
-
-    const findAllAppointments = new FindAllAppointmentsService(
-      fakeAppointmentsRepository,
-    )
 
     const appointments = await findAllAppointments.execute()
 
