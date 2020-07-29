@@ -4,38 +4,42 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import CreateUserService from '@modules/users/services/CreateUserService'
 import FindAllUsersService from '@modules/users/services/FindAllUsersService'
 
+let fakeUsersRepository: FakeUsersRepository
+let fakeHashProvider: FakeHashProvider
+
+let createUser: CreateUserService
+let findAllUsers: FindAllUsersService
+
 describe('FindAllUsers', () => {
+  beforeEach(async () => {
+    fakeUsersRepository = new FakeUsersRepository()
+    fakeHashProvider = new FakeHashProvider()
+
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
+    findAllUsers = new FindAllUsersService(fakeUsersRepository)
+
+    const password = '123456'
+
+    await createUser.execute({
+      name: 'New user 1',
+      email: 'valid-1@email.com',
+      password,
+    })
+
+    await createUser.execute({
+      name: 'New user 2',
+      email: 'valid-2@email.com',
+      password,
+    })
+
+    await createUser.execute({
+      name: 'New user 3',
+      email: 'valid-3@email.com',
+      password,
+    })
+  })
+
   it('should be able get all users', async () => {
-    const fakeUsersRepository = new FakeUsersRepository()
-    const fakeHashProvider = new FakeHashProvider()
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    )
-
-    await createUser.execute({
-      name: 'John Doe 1',
-      email: 'john1@doe.com',
-      password: '123456',
-    })
-
-    await createUser.execute({
-      name: 'John Doe 2',
-      email: 'john2@doe.com',
-      password: '123456',
-    })
-
-    await createUser.execute({
-      name: 'John Doe 3',
-      email: 'john3@doe.com',
-      password: '123456',
-    })
-
-    const findAllUsers = new FindAllUsersService(fakeUsersRepository)
-
-    const users = await findAllUsers.execute()
-
-    expect(users).toHaveLength(3)
+    expect(await findAllUsers.execute()).toHaveLength(3)
   })
 })
