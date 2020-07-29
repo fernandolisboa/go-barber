@@ -8,16 +8,14 @@ let createAppointment: CreateAppointmentService
 let findAllAppointments: FindAllAppointmentsService
 
 describe('FindAllAppointments', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository()
 
     createAppointment = new CreateAppointmentService(fakeAppointmentsRepository)
     findAllAppointments = new FindAllAppointmentsService(
       fakeAppointmentsRepository,
     )
-  })
 
-  it('should be able get all appointments', async () => {
     const provider_id = 'random-provider-id'
 
     await createAppointment.execute({
@@ -34,9 +32,9 @@ describe('FindAllAppointments', () => {
       provider_id,
       date: new Date(2020, 6, 10, 14),
     })
+  })
 
-    const appointments = await findAllAppointments.execute()
-
-    expect(appointments).toHaveLength(3)
+  it('should be able get all appointments', async () => {
+    expect(await findAllAppointments.execute()).toHaveLength(3)
   })
 })
