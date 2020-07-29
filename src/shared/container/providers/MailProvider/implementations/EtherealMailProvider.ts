@@ -1,4 +1,5 @@
 import nodemailer, { Transporter } from 'nodemailer'
+
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider'
 
 class EtherealMailProvider implements IMailProvider {
