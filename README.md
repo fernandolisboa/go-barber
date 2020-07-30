@@ -3,28 +3,28 @@
 ## Recuperação de senha
 
 - RF
-  - [ ] O usuário deve poder solicitar a recuperação de senha informando o seu e-mail
-  - [ ] O usuário deve receber um e-mail com instruções para recuperação de senha
-  - [ ] O usuário deve poder resetar sua senha seguindo as intruções de recuperação
+  - [x] O usuário deve poder solicitar a recuperação de senha informando o seu e-mail
+  - [x] O usuário deve receber um e-mail com instruções para recuperação de senha
+  - [x] O usuário deve poder resetar sua senha seguindo as intruções de recuperação
 
 - RNF
-  - [ ] Utilizar o Mailtrap para testar envios de e-mail em ambiente de desenvolvimento
+  - [x] Utilizar o Ethereal para testar envios de e-mail em ambiente de desenvolvimento
   - [ ] Utilizar o Amason SES para envios de e-mail em produção
   - [ ] O envio de e-mails deve acontecer em segundo plano (background job)
 
 - RN
-  - [ ] O link enviado por e-mail para resetar a senha deve expirar em 2 horas
+  - [x] O link enviado por e-mail para resetar a senha deve expirar em 2 horas
   - [ ] O usuário precisa confirmar a nova senha para proceder com o reset
 
 ## Atualização do perfil
 
 - RF
-  - [ ] O usuário deve poder atualizar seu nome, e-mail e senha
+  - [x] O usuário deve poder atualizar seu nome, e-mail e senha
 
 - RN
-  - [ ] O usuário não pode alterar seu e-mail para um e-mail já utilizado
-  - [ ] Para atualizar sua senha o usuário deve informar a senha antiga
-  - [ ] Para atualizar sua senha o usuário precisa confirmar a nova senha
+  - [x] O usuário não pode alterar seu e-mail para um e-mail já utilizado
+  - [x] Para atualizar sua senha o usuário deve informar a senha antiga
+  - [x] Para atualizar sua senha o usuário precisa confirmar a nova senha
 
 ## Painel do prestador
 
