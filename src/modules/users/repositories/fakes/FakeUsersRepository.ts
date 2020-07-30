@@ -1,15 +1,23 @@
 import { uuid } from 'uuidv4'
 
-import IUsersRepository from '@modules/users/repositories/IUsersRepository'
-import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
-
 import User from '@modules/users/infra/typeorm/entities/User'
+
+import IUsersRepository from '@modules/users/repositories/IUsersRepository'
+
+import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO'
+import IListProvidersDTO from '@modules/users/dtos/IListProvidersDTO'
 
 class FakeUsersRepository implements IUsersRepository {
   private users: User[] = []
 
   public async findAll(): Promise<User[]> {
     return this.users
+  }
+
+  public async findAllProviders({
+    except_user_id,
+  }: IListProvidersDTO): Promise<User[]> {
+    return this.users.filter(user => user.id !== except_user_id)
   }
 
   public async findById(id: string): Promise<User | undefined> {
