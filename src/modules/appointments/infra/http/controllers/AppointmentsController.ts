@@ -15,6 +15,7 @@ class AppointmentsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
+    const customer_id = request.user.id
     const { provider_id, date } = request.body
 
     const parsedDate = parseISO(date)
@@ -23,6 +24,7 @@ class AppointmentsController {
 
     const appointment = await createAppointment.execute({
       provider_id,
+      customer_id,
       date: parsedDate,
     })
 
