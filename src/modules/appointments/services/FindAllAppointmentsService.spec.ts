@@ -17,19 +17,23 @@ describe('FindAllAppointments', () => {
     )
 
     const provider_id = 'random-provider-id'
+    const customer_id = 'random-customer-id'
 
     await createAppointment.execute({
       provider_id,
+      customer_id,
       date: new Date(2020, 6, 10, 12),
     })
 
     await createAppointment.execute({
       provider_id,
+      customer_id,
       date: new Date(2020, 6, 10, 13),
     })
 
     await createAppointment.execute({
       provider_id,
+      customer_id,
       date: new Date(2020, 6, 10, 14),
     })
   })

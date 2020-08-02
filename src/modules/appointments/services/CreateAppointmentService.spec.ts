@@ -9,6 +9,7 @@ let createAppointment: CreateAppointmentService
 let date: Date
 
 const provider_id = 'valid-provider-id'
+const customer_id = 'valid-customer-id'
 
 describe('CreateAppointment', () => {
   beforeEach(() => {
@@ -19,17 +20,21 @@ describe('CreateAppointment', () => {
   })
 
   it('should be able to create a new appointment', async () => {
-    const appointment = await createAppointment.execute({ provider_id, date })
+    const appointment = await createAppointment.execute({
+      provider_id,
+      customer_id,
+      date,
+    })
 
     expect(appointment).toHaveProperty('id')
     expect(appointment.provider_id).toBe(provider_id)
   })
 
   it('should not be able to create two appointments on the same time', async () => {
-    await createAppointment.execute({ provider_id, date })
+    await createAppointment.execute({ provider_id, customer_id, date })
 
     await expect(
-      createAppointment.execute({ provider_id, date }),
+      createAppointment.execute({ provider_id, customer_id, date }),
     ).rejects.toBeInstanceOf(AppError)
   })
 })

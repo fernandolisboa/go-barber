@@ -7,6 +7,8 @@ let fakeAppointmentsRepository: FakeAppointmentsRepository
 let listProviderDayAvailability: ListProviderDayAvailabilityService
 
 const provider_id = 'any-provider-id'
+const customer_id = 'any-customer-id'
+
 const day = 22
 const month = 4
 const year = 2020
@@ -21,21 +23,25 @@ describe('ListProviderDayAvailability', () => {
 
     await fakeAppointmentsRepository.create({
       provider_id,
+      customer_id,
       date: new Date(2020, 3, 22, 8, 0, 0),
     })
 
     await fakeAppointmentsRepository.create({
       provider_id,
+      customer_id,
       date: new Date(2020, 3, 22, 9, 0, 0),
     })
 
     await fakeAppointmentsRepository.create({
       provider_id,
+      customer_id,
       date: new Date(2020, 3, 22, 15, 0, 0),
     })
 
     await fakeAppointmentsRepository.create({
       provider_id,
+      customer_id,
       date: new Date(2020, 3, 22, 17, 0, 0),
     })
   })

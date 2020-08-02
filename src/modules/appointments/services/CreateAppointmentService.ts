@@ -7,7 +7,7 @@ import IAppointmentsRepository from '@modules/appointments/repositories/IAppoint
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment'
 
-type Request = Pick<Appointment, 'provider_id' | 'date'>
+type Request = Pick<Appointment, 'provider_id' | 'customer_id' | 'date'>
 
 @injectable()
 class CreateAppointmentService {
@@ -16,7 +16,11 @@ class CreateAppointmentService {
     private appointmentsRepository: IAppointmentsRepository,
   ) {}
 
-  public async execute({ provider_id, date }: Request): Promise<Appointment> {
+  public async execute({
+    provider_id,
+    customer_id,
+    date,
+  }: Request): Promise<Appointment> {
     const appointmentDate = startOfHour(date)
 
     const existsAppointmentInSameDate = await this.appointmentsRepository.findByDate(
@@ -29,6 +33,7 @@ class CreateAppointmentService {
 
     const appointment = await this.appointmentsRepository.create({
       provider_id,
+      customer_id,
       date: appointmentDate,
     })
 
