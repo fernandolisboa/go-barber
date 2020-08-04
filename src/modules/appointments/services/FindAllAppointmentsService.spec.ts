@@ -1,41 +1,38 @@
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository'
 
-import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService'
 import FindAllAppointmentsService from '@modules/appointments/services/FindAllAppointmentsService'
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository
-let createAppointment: CreateAppointmentService
 let findAllAppointments: FindAllAppointmentsService
+
+const provider_id = 'any-provider-id'
+const customer_id = 'any-customer-id'
 
 describe('FindAllAppointments', () => {
   beforeEach(async () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository()
 
-    createAppointment = new CreateAppointmentService(fakeAppointmentsRepository)
-    findAllAppointments = new FindAllAppointmentsService(
-      fakeAppointmentsRepository,
-    )
-
-    const provider_id = 'random-provider-id'
-    const customer_id = 'random-customer-id'
-
-    await createAppointment.execute({
+    await fakeAppointmentsRepository.create({
       provider_id,
       customer_id,
       date: new Date(2020, 6, 10, 12),
     })
 
-    await createAppointment.execute({
+    await fakeAppointmentsRepository.create({
       provider_id,
       customer_id,
       date: new Date(2020, 6, 10, 13),
     })
 
-    await createAppointment.execute({
+    await fakeAppointmentsRepository.create({
       provider_id,
       customer_id,
       date: new Date(2020, 6, 10, 14),
     })
+
+    findAllAppointments = new FindAllAppointmentsService(
+      fakeAppointmentsRepository,
+    )
   })
 
   it('should be able get all appointments', async () => {
