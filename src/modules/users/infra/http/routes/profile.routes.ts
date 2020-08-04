@@ -20,13 +20,13 @@ profileRouter.put(
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       old_password: Joi.string().when('new_password', {
-        is: Joi.string().min(1),
+        is: Joi.exist(),
         then: Joi.required(),
         otherwise: Joi.optional(),
       }),
       new_password: Joi.string(),
       password_confirmation: Joi.string().when('new_password', {
-        is: Joi.string().min(1),
+        is: Joi.exist(),
         then: Joi.required().valid(Joi.ref('new_password')),
         otherwise: Joi.optional(),
       }),
