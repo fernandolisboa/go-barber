@@ -10,7 +10,7 @@ import IHashProvider from '@modules/users/providers/HashProvider/models/IHashPro
 import User from '@modules/users/infra/typeorm/entities/User'
 
 interface IRequest {
-  login: string
+  email: string
   password: string
 }
 
@@ -31,8 +31,8 @@ class AuthenticateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ login, password }: IRequest): Promise<IResponse> {
-    const user = await this.usersRepository.findByLogin(login)
+  public async execute({ email, password }: IRequest): Promise<IResponse> {
+    const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
       throw new AppError(this.DEFAULT_ERROR_MESSAGE, 401)

@@ -11,7 +11,6 @@ let showProfile: ShowProfileService
 let userId: string
 
 const name = 'Any user'
-const username = 'any'
 const email = 'any@email.com'
 const password = 'any-password'
 
@@ -21,7 +20,6 @@ describe('ShowProfile', () => {
 
     const { id } = await fakeUsersRepository.create({
       name,
-      username,
       email,
       password,
     })

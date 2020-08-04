@@ -33,7 +33,6 @@ describe('SendForgotPasswordEmail', () => {
     validUser = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
-      username: 'john',
       password: '123456',
     })
   })

@@ -32,7 +32,6 @@ describe('ResetPassword', () => {
     const { id } = await fakeUsersRepository.create({
       name: 'New user',
       email: 'valid@email.com',
-      username: 'valid',
       password: oldPassword,
     })
 

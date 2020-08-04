@@ -20,7 +20,7 @@ class CreateUserService {
   ) {}
 
   public async execute({ name, email, password }: IRequest): Promise<User> {
-    const existsUser = await this.usersRepository.findByLogin(email)
+    const existsUser = await this.usersRepository.findByEmail(email)
 
     if (existsUser) {
       throw new AppError('This email is already in use.')
@@ -28,11 +28,8 @@ class CreateUserService {
 
     const hashedPassword = await this.hashProvider.generateHash(password)
 
-    const username = email.substring(0, email.indexOf('@'))
-
     const user = await this.usersRepository.create({
       name,
-      username,
       email,
       password: hashedPassword,
     })

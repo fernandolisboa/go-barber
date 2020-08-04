@@ -33,9 +33,9 @@ class UsersRepository implements IUsersRepository {
     return userFound
   }
 
-  public async findByLogin(login: string): Promise<User | undefined> {
+  public async findByEmail(email: string): Promise<User | undefined> {
     const userFound = await this.ormRepository.findOne({
-      where: [{ username: login }, { email: login }],
+      where: { email },
     })
 
     return userFound

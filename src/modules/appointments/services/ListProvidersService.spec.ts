@@ -23,28 +23,24 @@ describe('ListProviders', () => {
 
     user1 = await fakeUsersRepository.create({
       name: 'Any user 1',
-      username: 'any-1',
       email: 'any-1@email.com',
       password,
     })
 
     user2 = await fakeUsersRepository.create({
       name: 'Any user 2',
-      username: 'any-2',
       email: 'any-2@email.com',
       password,
     })
 
     user3 = await fakeUsersRepository.create({
       name: 'Any user 3',
-      username: 'any-3',
       email: 'any-3@email.com',
       password,
     })
 
     loggedUser = await fakeUsersRepository.create({
       name: 'Logged user',
-      username: 'logged_user',
       email: 'logged_user@email.com',
       password,
     })
