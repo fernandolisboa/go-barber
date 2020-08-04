@@ -3,15 +3,14 @@ import { container } from 'tsyringe'
 
 import FindAllUsersService from '@modules/users/services/FindAllUsersService'
 import CreateUserService from '@modules/users/services/CreateUserService'
+import { classToClass } from 'class-transformer'
 
 class UsersController {
   public async index(_request: Request, response: Response): Promise<Response> {
     const findAllUsers = container.resolve(FindAllUsersService)
     const users = await findAllUsers.execute()
 
-    users.forEach(user => delete user.password)
-
-    return response.json(users)
+    return response.json(classToClass(users))
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -25,9 +24,7 @@ class UsersController {
       password,
     })
 
-    delete user.password
-
-    return response.json(user)
+    return response.json(classToClass(user))
   }
 }
 
