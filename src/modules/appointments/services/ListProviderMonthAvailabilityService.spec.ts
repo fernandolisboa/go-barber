@@ -41,7 +41,7 @@ describe('ListProviderMonthAvailability', () => {
     }
   })
 
-  it('should be able to list the provider`s month availability', async () => {
+  it("should be able to list the provider's month availability", async () => {
     const availability = await listProviderMonthAvailability.execute({
       provider_id,
       month,
