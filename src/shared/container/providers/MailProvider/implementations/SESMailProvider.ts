@@ -32,7 +32,7 @@ class EtherealMailProvider implements IMailProvider {
   }: ISendMailDTO): Promise<void> {
     const { name, email } = mailConfig.defaults.from
 
-    const message = await this.client.sendMail({
+    await this.client.sendMail({
       from: {
         name: from?.name || name,
         address: from?.name || email,
@@ -44,9 +44,6 @@ class EtherealMailProvider implements IMailProvider {
       subject,
       html: await this.mailTemplateProvider.parse(templateData),
     })
-
-    console.log('Message sent: %s', message.messageId)
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(message))
   }
 }
 
