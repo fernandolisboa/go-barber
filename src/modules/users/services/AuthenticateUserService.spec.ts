@@ -4,25 +4,23 @@ import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepo
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService'
-import CreateUserService from '@modules/users/services/CreateUserService'
 
 let fakeUsersRepository: FakeUsersRepository
 let fakeHashProvider: FakeHashProvider
 
-let createUser: CreateUserService
 let authenticateUser: AuthenticateUserService
 
 describe('AuthenticateUser', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository()
     fakeHashProvider = new FakeHashProvider()
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
+
     authenticateUser = new AuthenticateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     )
 
-    await createUser.execute({
+    await fakeUsersRepository.create({
       name: 'Valid name',
       email: 'valid@mail.com',
       password: 'valid-password',

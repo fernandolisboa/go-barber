@@ -1,17 +1,13 @@
 import AppError from '@shared/errors/AppError'
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
-import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider'
 
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService'
-import CreateUserService from '@modules/users/services/CreateUserService'
 
 let fakeUsersRepository: FakeUsersRepository
-let fakeHashProvider: FakeHashProvider
 let fakeStorageProvider: FakeStorageProvider
 
-let createUser: CreateUserService
 let updateUserAvatar: UpdateUserAvatarService
 
 let userId: string
@@ -20,17 +16,14 @@ const avatarFilename = 'avatar-filename.jpg'
 describe('UpdateUserAvatar', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository()
-    fakeHashProvider = new FakeHashProvider()
     fakeStorageProvider = new FakeStorageProvider()
-
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
 
     updateUserAvatar = new UpdateUserAvatarService(
       fakeUsersRepository,
       fakeStorageProvider,
     )
 
-    const { id } = await createUser.execute({
+    const { id } = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'john@doe.com',
       password: '123456',

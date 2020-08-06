@@ -3,13 +3,11 @@ import AppError from '@shared/errors/AppError'
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider'
 
-import CreateUserService from '@modules/users/services/CreateUserService'
 import UpdateProfileService from '@modules/users/services/UpdateProfileService'
 
 let fakeUsersRepository: FakeUsersRepository
 let fakeHashProvider: FakeHashProvider
 
-let createUser: CreateUserService
 let updateProfile: UpdateProfileService
 
 let userId: string
@@ -27,14 +25,12 @@ describe('UpdateProfile', () => {
     fakeUsersRepository = new FakeUsersRepository()
     fakeHashProvider = new FakeHashProvider()
 
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider)
-
     updateProfile = new UpdateProfileService(
       fakeUsersRepository,
       fakeHashProvider,
     )
 
-    const { id } = await createUser.execute({
+    const { id } = await fakeUsersRepository.create({
       name: oldName,
       email: oldEmail,
       password: oldPassword,
@@ -190,7 +186,7 @@ describe('UpdateProfile', () => {
   it('should not be able to update the user email with one that is already in use', async () => {
     const sameEmail = 'same@email.com'
 
-    await createUser.execute({
+    await fakeUsersRepository.create({
       name: 'Other user',
       email: sameEmail,
       password: 'other-password',
