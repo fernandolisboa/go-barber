@@ -12,6 +12,10 @@ describe('FindAllAppointments', () => {
   beforeEach(async () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository()
 
+    findAllAppointments = new FindAllAppointmentsService(
+      fakeAppointmentsRepository,
+    )
+
     await fakeAppointmentsRepository.create({
       provider_id,
       customer_id,
@@ -29,10 +33,6 @@ describe('FindAllAppointments', () => {
       customer_id,
       date: new Date(2020, 6, 10, 14),
     })
-
-    findAllAppointments = new FindAllAppointmentsService(
-      fakeAppointmentsRepository,
-    )
   })
 
   it('should be able get all appointments', async () => {

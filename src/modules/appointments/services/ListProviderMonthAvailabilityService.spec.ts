@@ -16,6 +16,10 @@ describe('ListProviderMonthAvailability', () => {
   beforeEach(async () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository()
 
+    listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
+      fakeAppointmentsRepository,
+    )
+
     await fakeAppointmentsRepository.create({
       provider_id,
       customer_id,
@@ -35,10 +39,6 @@ describe('ListProviderMonthAvailability', () => {
         date: new Date(year, month - 1, 22, 8 + i, 0, 0),
       })
     }
-
-    listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
-      fakeAppointmentsRepository,
-    )
   })
 
   it("should be able to list the provider's month availability", async () => {

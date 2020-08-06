@@ -18,6 +18,8 @@ describe('ShowProfile', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository()
 
+    showProfile = new ShowProfileService(fakeUsersRepository)
+
     const { id } = await fakeUsersRepository.create({
       name,
       email,
@@ -25,8 +27,6 @@ describe('ShowProfile', () => {
     })
 
     userId = id
-
-    showProfile = new ShowProfileService(fakeUsersRepository)
   })
 
   it('should be able to update the avatar of a new user', async () => {

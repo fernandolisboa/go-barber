@@ -35,10 +35,9 @@ describe('ResetPassword', () => {
       password: oldPassword,
     })
 
+    const { token } = await fakeUserTokensRepository.generate(id)
+
     validUserId = id
-
-    const { token } = await fakeUserTokensRepository.generate(validUserId)
-
     validToken = token
   })
 
