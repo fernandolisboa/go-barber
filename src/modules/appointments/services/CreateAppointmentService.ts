@@ -5,6 +5,7 @@ import AppError from '@shared/errors/AppError'
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository'
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository'
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider'
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment'
 
@@ -18,6 +19,9 @@ class CreateAppointmentService {
 
     @inject('NotificationsRepository')
     private notificationsRepository: INotificationsRepository,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({
@@ -55,12 +59,19 @@ class CreateAppointmentService {
       date: appointmentDate,
     })
 
-    const formattedDate = format(appointmentDate, "dd/MM/yyyy 'às' HH'h'")
+    const formattedDate = format(appointmentDate, "dd 'de' MMMM 'às' HH'h'")
 
     await this.notificationsRepository.create({
       recipient_id: provider_id,
       content: `Você possui um novo agendamento no dia ${formattedDate}`,
     })
+
+    await this.cacheProvider.invalidate(
+      `provider-appointments:${provider_id}:${format(
+        appointmentDate,
+        'yyyy-M-d',
+      )}`,
+    )
 
     return appointment
   }
