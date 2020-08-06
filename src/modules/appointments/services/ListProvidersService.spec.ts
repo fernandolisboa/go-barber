@@ -1,9 +1,12 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository'
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider'
 
-import ListProvidersService from '@modules/appointments/services/ListProvidersService'
 import User from '@modules/users/infra/typeorm/entities/User'
 
+import ListProvidersService from '@modules/appointments/services/ListProvidersService'
+
 let fakeUsersRepository: FakeUsersRepository
+let fakeCacheProvider: FakeCacheProvider
 
 let listProviders: ListProvidersService
 
@@ -16,8 +19,12 @@ let loggedUser: User
 describe('ListProviders', () => {
   beforeEach(async () => {
     fakeUsersRepository = new FakeUsersRepository()
+    fakeCacheProvider = new FakeCacheProvider()
 
-    listProviders = new ListProvidersService(fakeUsersRepository)
+    listProviders = new ListProvidersService(
+      fakeUsersRepository,
+      fakeCacheProvider,
+    )
 
     const password = 'any-password'
 
