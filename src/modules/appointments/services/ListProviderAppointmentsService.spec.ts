@@ -1,9 +1,12 @@
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository'
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider'
 
 import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService'
+
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment'
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository
+let fakeCacheProvider: FakeCacheProvider
 
 let listProviderAppointments: ListProviderAppointmentsService
 
@@ -22,9 +25,11 @@ let appointment4: Appointment
 describe('ListProviderAppointments', () => {
   beforeEach(async () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository()
+    fakeCacheProvider = new FakeCacheProvider()
 
     listProviderAppointments = new ListProviderAppointmentsService(
       fakeAppointmentsRepository,
+      fakeCacheProvider,
     )
 
     appointment1 = await fakeAppointmentsRepository.create({
