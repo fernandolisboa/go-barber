@@ -12,7 +12,10 @@ interface IAppointmentsRepository {
   findAllInDayOfProvider(
     data: IFindAllInDayOfProviderDTO,
   ): Promise<Appointment[]>
-  findByDate(date: Date): Promise<Appointment | undefined>
+  findByDateOfProvider(
+    provider_id: string,
+    date: Date,
+  ): Promise<Appointment | undefined>
   create(data: ICreateAppointmentDTO): Promise<Appointment>
 }
 
