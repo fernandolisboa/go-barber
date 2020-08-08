@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe'
-import { getDaysInMonth, getDate, isAfter, isSameDay } from 'date-fns'
+import { getDaysInMonth, getDate, isAfter } from 'date-fns'
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository'
 
@@ -46,14 +46,16 @@ class ListProviderMonthAvailabilityService {
           ({ date }) => getDate(date) === day,
         )
 
-        const appointmentDate = new Date(year, month - 1, day)
+        // ao contrário do que o Diego passou 23:59:59 na aulta
+        // coloquei 16:59:59 pq o último atendimento é às 17h
+        // então após este horário o dia sendo consultado não deve estar disponível
+        const appointmentDate = new Date(year, month - 1, day, 16, 59, 59)
 
         return {
           day,
           available:
             numberOfAppointmentsInDay < 10 &&
-            (isAfter(appointmentDate, currentDate) ||
-              isSameDay(appointmentDate, currentDate)),
+            isAfter(appointmentDate, currentDate),
         }
       },
     )
