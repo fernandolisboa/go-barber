@@ -8,5 +8,6 @@ temp/
 
 ormconfig.json
 
-tmp/*
-!tmp/.gitkeep
+tmp/**/*
+!tmp/uploads
+!tmp/**/.gitkeep
