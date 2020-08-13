@@ -13,19 +13,23 @@ class EtherealMailProvider implements IMailProvider {
     @inject('MailTemplateProvider')
     private mailTemplateProvider: IMailTemplateProvider,
   ) {
-    nodemailer.createTestAccount().then(account => {
-      const transporter = nodemailer.createTransport({
-        host: account.smtp.host,
-        port: account.smtp.port,
-        secure: account.smtp.secure,
-        auth: {
-          user: account.user,
-          pass: account.pass,
-        },
-      })
+    nodemailer
+      .createTestAccount()
+      .then(account => {
+        const transporter = nodemailer.createTransport({
+          host: account.smtp.host,
+          port: account.smtp.port,
+          secure: account.smtp.secure,
+          auth: {
+            user: account.user,
+            pass: account.pass,
+          },
+        })
 
-      this.client = transporter
-    })
+        this.client = transporter
+        console.debug('nodemailer test account created')
+      })
+      .catch(err => console.error(err))
   }
 
   public async sendMail({
